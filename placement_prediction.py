@@ -68,7 +68,7 @@ pkl.dump(campus_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
 
 X = df.iloc[:,df.columns!='Job Offer Count']
 y = df['Job Offer Count']
-
+pkl.dump(df['Job Offer Count'].unique().tolist(), open(f'{unique_dir}/JobOfferCount.sav','rb'))
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
 
 pkl.dump(X_train, open(f'{data_dir}/X_train.sav', 'wb'))
