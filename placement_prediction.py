@@ -61,11 +61,14 @@ df.loc[m, 'HSC_Marks'] = df.loc[m, 'HSC_Marks'].fillna(df['HSC_Marks'])
 ]
 
 branch_encoder, campus_encoder, gender_encoder = LabelEncoder(), LabelEncoder(), LabelEncoder()
-pkl.dump(df['Campus'], open(f'{unique_dir}/Campus.sav','wb'))
-df['Campus'] = campus_encoder.fit_transform(df['BRANCH'])
+
+pkl.dump(df['Campus'].unique().tolist(), open(f'{unique_dir}/Campus.sav','wb'))
+df['Campus'] = campus_encoder.fit_transform(df['Campus'])
 pkl.dump(campus_encoder, open(f'{encoder_dir}/Campus.sav','wb'))
+pkl.dump(df['BRANCH'], open(f'{unique_dir}/Branch.sav','wb'))
 df['BRANCH'] = branch_encoder.fit_transform(df['BRANCH'])
-pkl.dump(df['Campus'], open(f'{unique_dir}/Gender.sav','wb'))
+pkl.dump(branch_encoder, open(f'{encoder_dir}/Branch.sav','wb'))
+pkl.dump(df['Gender'], open(f'{unique_dir}/Gender.sav','wb'))
 df['Gender'] = gender_encoder.fit_transform(df['Gender'])
 pkl.dump(campus_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
 
@@ -83,11 +86,12 @@ scaler = StandardScaler()
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
+
 pkl.dump(scaler, open(f'{scaler_dir}/scaler.sav', 'wb'))
 pkl.dump(X_train, open(f'{data_dir}/X_train_scaled.sav', 'wb'))
 pkl.dump(X_test, open(f'{data_dir}/X_test_scaled.sav', 'wb'))
 
-print(df.iloc[:,df.columns!='Job Offer Count'].columns.values.tolist())
+# print(df.iloc[:,df.columns!='Job Offer Count'].columns.values.tolist())
 
 models_list = []
 models_list.append(dict(model_name='LogisticRegression', model=LogisticRegression(max_iter=1000))) # max_iter=1000
