@@ -107,7 +107,7 @@ results = dict(model_name=[], accuracy=[])
 info = ''
 s = perf_counter()
 for model_dict in models_list:
-    kfold = KFold(n_splits=10, random_state=2019)
+    kfold = KFold(n_splits=10, random_state=2019, shuffle=True)
     cross_val_results = cross_val_score(model_dict['model'], X_train, y_train, cv=kfold, scoring='accuracy', n_jobs=4)
     results['model_name'].append(model_dict['model_name'])
     results['accuracy'].append(cross_val_results)
