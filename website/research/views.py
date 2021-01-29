@@ -36,12 +36,9 @@ def branch_prediction(request):
     unique_branches = pkl.load(open(f'{unique_dir}/branches.sav','rb'))
     
     models = []
-    models.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
-    models.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
-    models.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
-    models.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
-    models.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
-    models.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
+    for file in os.listdir(model_dir):
+        if file.endswith('.sav'):
+            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
         
     if request.method == 'POST':
         merit_no = request.POST['merit_no']
@@ -121,12 +118,9 @@ def college_prediction(request):
     unique_college_names = pkl.load(open(f'{unique_dir}/college_names.sav','rb'))
     
     models = []
-    models.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
-    models.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
-    models.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
-    models.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
-    models.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
-    models.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
+    for file in os.listdir(model_dir):
+        if file.endswith('.sav'):
+            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
     
     if request.method == 'POST':
         merit_no = request.POST['merit_no']
