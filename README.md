@@ -11,6 +11,6 @@
 2. python branch_prediction.py
 3. python college_prediction_.py
 4. python placement_prediction.py
-2. cd website
-3. python -m pip install numpy pandas matplotlib seaborn django
-4. python manage.py runserver
+5. cd website
+6. python -m pip install numpy pandas matplotlib seaborn django
+7. python manage.py runserver
