@@ -50,4 +50,14 @@ df.drop(['No.', 'Degree', 'Roll No','First Name', 'Middle Name', 'Last Name','Da
 df = preprocess_data_placement(df)
 
 m = df['Diploma_Marks'].notnull()
-df.loc[m,'HSC_Marks']=df.loc[m,'HSC_Marks'].fillna(df['HSC_Marks'])
+df.loc[m, 'HSC_Marks'] = df.loc[m, 'HSC_Marks'].fillna(df['HSC_Marks'])
+[
+    'BRANCH', 'Campus', 'Gender', 'BE_Aggregate_Marks', 'Semester1_Marks', 'BackPapers1', 'P_BackPapers1', 'Semester2_Marks', 
+    'BackPapers2', 'P_BackPapers2', 'Semester3_Marks', 'BackPapers3', 'P_BackPapers3', 'Semester4_Marks', 'BackPapers4', 
+    'P_BackPapers4', 'Semester5_Marks', 'BackPapers5', 'P_BackPapers5', 'Semester6_Marks', 'BackPapers6', 'P_BackPapers6', 
+    'Semester7_Marks', 'BackPapers7', 'P_BackPapers7', 'HSC_Marks', 'SSC_Marks', 'Diploma_Marks', 'dead_back_log', 'live_atkt', 
+    'Job Offer Count'
+]
+campus_encoder = LabelEncoder()
+df['Campus'] = campus_encoder.fit_transform()
+pkl.dump(campus_encoder, open(f'{encoder_dir}/Campus.sav','wb'))
