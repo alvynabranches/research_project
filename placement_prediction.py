@@ -59,10 +59,10 @@ branch_encoder, campus_encoder, gender_encoder = LabelEncoder(), LabelEncoder(),
 pkl.dump(df['Campus'].unique().tolist(), open(f'{unique_dir}/Campus.sav','wb'))
 df['Campus'] = campus_encoder.fit_transform(df['Campus'])
 pkl.dump(campus_encoder, open(f'{encoder_dir}/Campus.sav','wb'))
-pkl.dump(df['BRANCH'], open(f'{unique_dir}/Branch.sav','wb'))
+pkl.dump(df['BRANCH'].unique().tolist(), open(f'{unique_dir}/Branch.sav','wb'))
 df['BRANCH'] = branch_encoder.fit_transform(df['BRANCH'])
 pkl.dump(branch_encoder, open(f'{encoder_dir}/Branch.sav','wb'))
-pkl.dump(df['Gender'], open(f'{unique_dir}/Gender.sav','wb'))
+pkl.dump(df['Gender'].unique().tolist(), open(f'{unique_dir}/Gender.sav','wb'))
 df['Gender'] = gender_encoder.fit_transform(df['Gender'])
 pkl.dump(campus_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
 
