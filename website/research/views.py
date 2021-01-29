@@ -223,17 +223,26 @@ def placement_prediction(request):
         diploma_marks = request.POST['diploma_marks']
         dead_back_log = request.POST['dead_back_log']
         live_atkt = request.POST['live_atkt']
+        
+        branch_encoder = pkl.load(open(f'{encoder_dir}/Branch.sav','rb'))
+        campus_encoder = pkl.load(open(f'{encoder_dir}/Campus.sav','rb'))
+        gender_encoder = pkl.load(open(f'{encoder_dir}/Gender.sav','rb'))
+        
         data = np.array([[
-            
+            branch_encoder.transform(branch), campus_encoder.transform(campus), gender_encoder.transform(gender), be_aggregate_marks, 
+            semester1_marks, backpapers1, p_backpapers1, semester2_marks, backpapers2, p_backpapers2, semester3_marks, backpapers3, 
+            p_backpapers3, semester4_marks, backpapers4, p_backpapers4, semester5_marks, backpapers5, p_backpapers5, semester6_marks, 
+            backpapers6, p_backpapers6, semester7_marks, backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, dead_back_log, 
+            live_atkt
         ]])
         
         results = []
-        # for model in models:
-        #     results.append([model['model_name'], college_name_encoder.inverse_transform(model['model'].predict(data).tolist())[0]])
+        for model in models:
+            results.append([model['model_name'], model['model'].predict(data).tolist()[0]])
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
-            results=results
+            results=results,
         )
         return render(request, 'research/placement_prediction_result.html')
     show_variables = dict(
