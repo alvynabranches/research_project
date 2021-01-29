@@ -154,12 +154,12 @@ pkl.dump(X_test, open(f'{data_dir}/X_test_scaled.sav', 'wb'))
 # print(f'Time Taken: {e-s:.2f} seconds')
 
 models_list = []
-models_list.append(dict(model_name='LogisticRegression', model=LogisticRegression(max_iter=1000))) # max_iter=1000
-models_list.append(dict(model_name='SupportVectorClassifier', model=SVC()))
-models_list.append(dict(model_name='DecisionTreeClassifier', model=DecisionTreeClassifier()))
-models_list.append(dict(model_name='RandomForestClassifier', model=RandomForestClassifier(n_estimators=300, max_features=3)))
-models_list.append(dict(model_name='GaussianNB', model=GaussianNB()))
-models_list.append(dict(model_name='KNeighborsClassifier', model=KNeighborsClassifier()))
+# models_list.append(dict(model_name='LogisticRegression', model=LogisticRegression(max_iter=1000))) # max_iter=1000
+# models_list.append(dict(model_name='SupportVectorClassifier', model=SVC()))
+# models_list.append(dict(model_name='DecisionTreeClassifier', model=DecisionTreeClassifier()))
+# models_list.append(dict(model_name='RandomForestClassifier', model=RandomForestClassifier(n_estimators=300, max_features=3)))
+# models_list.append(dict(model_name='GaussianNB', model=GaussianNB()))
+# models_list.append(dict(model_name='KNeighborsClassifier', model=KNeighborsClassifier()))
 models_list.append(dict(model_name='XGBoostClassifier', model=XGBClassifier(n_estimators=175,seed=41)))
 
 results = dict(model_name=[], accuracy=[])
@@ -178,12 +178,12 @@ print(info)
 print(f'Time Taken: {e-s:.2f} seconds')
 
 models_list = []
-models_list.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
-models_list.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
-models_list.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
-models_list.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
-models_list.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
-models_list.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
+# models_list.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
+# models_list.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
+# models_list.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
+# models_list.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
+# models_list.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
+# models_list.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
 models_list.append(dict(model_name='XGBoostClassifier', model=pkl.load(open(f'{model_dir}/XGBoostClassifier.sav','rb'))))
 
 # fig = plt.figure()
