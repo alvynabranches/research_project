@@ -13,6 +13,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
+from utils import preprocess_data_placement
+
 start = perf_counter()
 
 mkdir = lambda dir_: os.mkdir(dir_) if not os.path.isdir(dir_) else 0
@@ -43,3 +45,7 @@ mkdir(scaler_dir)
 mkdir(unique_dir)
 mkdir(data_dir)
 
+df.drop(['No.', 'Degree', 'Roll No','First Name', 'Middle Name', 'Last Name','Date of Birth', 'Back Papers','Pending Back Papers','Eligible But Not Registered Count', 'Registered But Not Offer Count','Semester 8 Aggregate Marks','Back Papers.8', 'Pending Back Papers.8','year_down'], axis=1, inplace=True)
+df = preprocess_data_placement(df)
+
+df
