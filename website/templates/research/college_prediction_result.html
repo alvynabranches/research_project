@@ -41,21 +41,22 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="container">
+    <div class="container result-div">
         <table class="table table-striped table-bordered table-hover table-custom">
             <thead class="thead-dark">
                 <tr>
-                    <th>Model Name</th>
-                    <th>Prediction</th>
+                    <th>First Preference</th>
+                    <th>Second Preference</th>
+                    <th>Third Preference</th>
                 </tr>
             </thead>
             <tbody>
-                {% for n, m in results %}
-                    <tr>
+                <tr>
+                    {% for n in results %}
                         <td>{{ n }}</td>
-                        <td>{{ m }}</td>
-                    </tr>
-                {% endfor %}
+                    {% endfor %}
+                </tr>
+                
             </tbody>
         </table>
     </div>

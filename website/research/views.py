@@ -1,9 +1,13 @@
 import os
 from socket import gethostbyname, gethostname
 import numpy as np
-import pandas as pd
 import pickle as pkl
 from django.shortcuts import render, HttpResponse
+
+SHOW_VARIABLES = dict(
+    online=gethostbyname(gethostname())!='127.0.0.1',
+    offline=gethostbyname(gethostname())=='127.0.0.1'
+)
 
 # Create your views here.
 def index(request):
@@ -35,10 +39,7 @@ def branch_prediction(request):
     unique_cap_rounds = pkl.load(open(f'{unique_dir}/cap_rounds.sav','rb'))
     unique_branches = pkl.load(open(f'{unique_dir}/branches.sav','rb'))
     
-    models = []
-    for file in os.listdir(model_dir):
-        if file.endswith('.sav'):
-            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
+    model = pkl.load(open(f'{model_dir}/XGBClassifier.sav','rb'))
         
     if request.method == 'POST':
         merit_no = request.POST['merit_no']
@@ -68,16 +69,16 @@ def branch_prediction(request):
         home_university_encoder = pkl.load(open(f'{encoder_dir}/HomeUniversity.sav','rb'))
         college_code_encoder = pkl.load(open(f'{encoder_dir}/CollegeCode.sav','rb'))
         
-        data = np.array([[
-            college_name_encoder.transform([college_name]), college_code_encoder.transform([float(college_code)]), 
+        data = np.array([[college_name_encoder.transform([college_name]), college_code_encoder.transform([float(college_code)]), 
             merit_no, merit_marks, gender_encoder.transform([gender]), candidate_type_encoder.transform([candidate_type]), 
             category_encoder.transform([category]), home_university_encoder.transform([home_university]), 
             ph_type_encoder.transform([ph_type]), defence_type_encoder.transform([defence_type]), hsc_eligibility, 
             cap_round_encoder.transform([cap_round]), nationality_encoder.transform([nationality])
         ]])
-        results = []
-        for model in models:
-            results.append([model['model_name'], branch_encoder.inverse_transform(model['model'].predict(data).tolist())[0]])
+        init_results = np.argsort(model.predict_proba(data)[0]).tolist()[-3:]
+        results = [college_name_encoder.inverse_transform([init_results[i]]).tolist()[0] for i in range(2, -1, -1)]
+        del init_results
+        
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
@@ -117,10 +118,7 @@ def college_prediction(request):
     unique_categories_ph_defence_types = pkl.load(open(f'{unique_dir}/category_ph_defence_types.sav','rb'))
     unique_college_names = pkl.load(open(f'{unique_dir}/college_names.sav','rb'))
     
-    models = []
-    for file in os.listdir(model_dir):
-        if file.endswith('.sav'):
-            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
+    model = pkl.load(open(f'{model_dir}/XGBoostClassifier.sav','rb'))
     
     if request.method == 'POST':
         merit_no = request.POST['merit_no']
@@ -150,11 +148,14 @@ def college_prediction(request):
             branch_encoder.transform([branch]), nationality_encoder.transform([nationality]), 
             category_ph_defence_encoder.transform([category_ph_defence_type])
         ]])
+        
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
         data = scaler.transform(data)
-        results = []
-        for model in models:
-            results.append([model['model_name'], college_name_encoder.inverse_transform(model['model'].predict(data).tolist())[0]])
+        
+        init_results = np.argsort(model.predict_proba(data)[0]).tolist()[-3:]
+        results = [college_name_encoder.inverse_transform([init_results[i]]).tolist()[0] for i in range(2, -1, -1)]
+        del init_results
+        
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
@@ -187,10 +188,8 @@ def placement_prediction(request):
     unique_branches = pkl.load(open(f'{unique_dir}/Branch.sav','rb'))
     unique_campus = pkl.load(open(f'{unique_dir}/Campus.sav','rb'))
     unique_genders = pkl.load(open(f'{unique_dir}/Gender.sav','rb'))
-    models = []
-    for file in os.listdir(model_dir):
-        if file.endswith('.sav'):
-            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
+    
+    model = pkl.load(open(f'{model_dir}/RandomForestClassifier','rb'))
     
     if request.method == 'POST':
         branch = request.POST['branch']
@@ -236,9 +235,12 @@ def placement_prediction(request):
             live_atkt
         ]])
         
-        results = []
-        for model in models:
-            results.append([model['model_name'], model['model'].predict(data).tolist()[0]])
+        scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
+        data = scaler.transform(data)
+        
+        results = model.predict(data).tolist()[0]
+        print(results)
+        
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
