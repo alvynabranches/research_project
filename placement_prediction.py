@@ -6,7 +6,7 @@ from time import perf_counter
 import matplotlib.pyplot as plt
 from scipy.sparse.construct import random
 import seaborn as sns
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -14,6 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+from xgboost import XGBClassifier
 
 from utils import preprocess_data_placement
 
@@ -56,8 +57,7 @@ df.loc[m, 'HSC_Marks'] = df.loc[m, 'HSC_Marks'].fillna(df['HSC_Marks'])
     'BRANCH', 'Campus', 'Gender', 'BE_Aggregate_Marks', 'Semester1_Marks', 'BackPapers1', 'P_BackPapers1', 'Semester2_Marks', 
     'BackPapers2', 'P_BackPapers2', 'Semester3_Marks', 'BackPapers3', 'P_BackPapers3', 'Semester4_Marks', 'BackPapers4', 
     'P_BackPapers4', 'Semester5_Marks', 'BackPapers5', 'P_BackPapers5', 'Semester6_Marks', 'BackPapers6', 'P_BackPapers6', 
-    'Semester7_Marks', 'BackPapers7', 'P_BackPapers7', 'HSC_Marks', 'SSC_Marks', 'Diploma_Marks', 'dead_back_log', 'live_atkt', 
-    'Job Offer Count'
+    'Semester7_Marks', 'BackPapers7', 'P_BackPapers7', 'HSC_Marks', 'SSC_Marks', 'Diploma_Marks', 'dead_back_log', 'live_atkt'
 ]
 
 branch_encoder, campus_encoder, gender_encoder = LabelEncoder(), LabelEncoder(), LabelEncoder()
@@ -74,4 +74,48 @@ y = df['Job Offer Count']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
 
+pkl.dump(X_train, open(f'{data_dir}/X_train.sav', 'wb'))
+pkl.dump(X_test, open(f'{data_dir}/X_test.sav', 'wb'))
+pkl.dump(y_train, open(f'{data_dir}/y_train.sav', 'wb'))
+pkl.dump(y_test, open(f'{data_dir}/y_test.sav', 'wb'))
+
 scaler = StandardScaler()
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+pkl.dump(scaler, open(f'{scaler_dir}/scaler.sav', 'wb'))
+pkl.dump(X_train, open(f'{data_dir}/X_train_scaled.sav', 'wb'))
+pkl.dump(X_test, open(f'{data_dir}/X_test_scaled.sav', 'wb'))
+
+print(df.iloc[:,df.columns!='Job Offer Count'].columns.values.tolist())
+
+models_list = []
+models_list.append(dict(model_name='LogisticRegression', model=LogisticRegression(max_iter=1000))) # max_iter=1000
+models_list.append(dict(model_name='SupportVectorClassifier', model=SVC()))
+models_list.append(dict(model_name='DecisionTreeClassifier', model=DecisionTreeClassifier()))
+models_list.append(dict(model_name='RandomForestClassifier', model=RandomForestClassifier(n_estimators=300, max_features=3)))
+models_list.append(dict(model_name='GaussianNB', model=GaussianNB()))
+models_list.append(dict(model_name='KNeighborsClassifier', model=KNeighborsClassifier()))
+models_list.append(dict(model_name='XGBoostClassifier', model=XGBClassifier(n_estimators=175,seed=41)))
+
+results = dict(model_name=[], accuracy=[])
+info = ''
+s = perf_counter()
+for model_dict in models_list:
+    kfold = KFold(n_splits=10, random_state=2019)
+    cross_val_results = cross_val_score(model_dict['model'], X_train, y_train, cv=kfold, scoring='accuracy', n_jobs=4)
+    results['model_name'].append(model_dict['model_name'])
+    results['accuracy'].append(cross_val_results)
+    info += f"{model_dict['model_name']}: {cross_val_results.mean()} ({cross_val_results.std()})\n"
+    model_dict['model'].fit(X_train, y_train)
+    pkl.dump(model_dict['model'], open(f'{model_dir}/{model_dict["model_name"]}.sav', 'wb'))
+e = perf_counter()
+print(info)
+print(f'Time Taken: {e-s:.2f} seconds')
+
+# fig = plt.figure()
+# fig.suptitle('Machine Learning Algorithms performance comparison')
+# ax = fig.add_subplot(111)
+# plt.boxplot(results['accuracy'])
+# ax.set_xticklabels(results['model_name'])
+# plt.show()
