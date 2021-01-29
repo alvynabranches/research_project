@@ -120,7 +120,7 @@ models_list = []
 # models_list.append(dict(model_name='RandomForestClassifier', model=RandomForestClassifier(n_estimators=300, max_features=3)))
 # models_list.append(dict(model_name='GaussianNB', model=GaussianNB()))
 # models_list.append(dict(model_name='KNeighborsClassifier', model=KNeighborsClassifier()))
-models_list.append(dict(model_name='XGBClassifier', model=XGBClassifier()))
+models_list.append(dict(model_name='XGBClassifier', model=XGBClassifier(n_estimators=175,seed=41)))
 
 results = dict(model_name=[], accuracy=[])
 info = ''
@@ -145,6 +145,7 @@ models_list = []
 # models_list.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
 # models_list.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
 # models_list.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
+models_list.append(dict(model_name='XGBClassifier', model=pkl.load(open(f'{model_dir}/XGBClassifier.sav','rb'))))
 
 end = perf_counter()
 print(f'Total Time Taken: {end-start:.2f} seconds')
