@@ -133,3 +133,6 @@ dmypy.json
 
 # Pickle Files
 *.sav
+
+# Custom Files
+_.py
