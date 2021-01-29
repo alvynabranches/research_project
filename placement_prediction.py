@@ -12,6 +12,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import LabelEncoder
 
 from utils import preprocess_data_placement
 
@@ -48,4 +49,5 @@ mkdir(data_dir)
 df.drop(['No.', 'Degree', 'Roll No','First Name', 'Middle Name', 'Last Name','Date of Birth', 'Back Papers','Pending Back Papers','Eligible But Not Registered Count', 'Registered But Not Offer Count','Semester 8 Aggregate Marks','Back Papers.8', 'Pending Back Papers.8','year_down'], axis=1, inplace=True)
 df = preprocess_data_placement(df)
 
-df
+m = df['Diploma_Marks'].notnull()
+df.loc[m,'HSC_Marks']=df.loc[m,'HSC_Marks'].fillna(df['HSC_Marks'])
