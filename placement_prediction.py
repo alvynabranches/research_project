@@ -73,3 +73,5 @@ X = df.iloc[:,df.columns!='Job Offer Count']
 y = df['Job Offer Count']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
+
+scaler = StandardScaler()
