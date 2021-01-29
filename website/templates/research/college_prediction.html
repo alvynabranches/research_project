@@ -43,11 +43,11 @@
 <body>
     <div class="container form-container">
         <form action="" method="post">
-            <div class="form-group"><input type="text" class="form-control" name="merit_no" id="merit_no" placeholder="Merit No" required></div>
-            <div class="form-group"><input type="text" class="form-control" name="merit_marks" id="merit_marks" placeholder="Merit Marks" required></div>
-            <div class="form-group"><input type="text" class="form-control" name="hsc_eligibility" id="hsc_eligibility" placeholder="HSC Eligibility" required></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="merit_no" id="merit_no" placeholder="Merit No" required></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="merit_marks" id="merit_marks" placeholder="Merit Marks" required></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="hsc_eligibility" id="hsc_eligibility" placeholder="HSC Eligibility" required></div>
             <div class="form-group">
-                <select class="form-control" name="gender" id="gender" placeholder="Gender" required>
+                <select class="form-control form-input" name="gender" id="gender" placeholder="Gender" required>
                     <option value="">Gender</option>
                     {% for e in ug %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -55,7 +55,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="candidate_type" id="candidate_type" placeholder="Candidate Type" required>
+                <select class="form-control form-input" name="candidate_type" id="candidate_type" placeholder="Candidate Type" required>
                     <option value="">Candidate Type</option>
                     {% for e in uct %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -63,7 +63,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="home_university" id="home_university" placeholder="home_university" required>
+                <select class="form-control form-input" name="home_university" id="home_university" placeholder="home_university" required>
                     <option value="">Home University</option>
                     {% for e in uhu %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -71,7 +71,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="cap_round" id="cap_round" placeholder="CAP Round" required>
+                <select class="form-control form-input" name="cap_round" id="cap_round" placeholder="CAP Round" required>
                     <option value="">CAP Round</option>
                     {% for e in ucr %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -79,7 +79,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="branch" id="branch" placeholder="Branch" required>
+                <select class="form-control form-input" name="branch" id="branch" placeholder="Branch" required>
                     <option value="">Branch</option>
                     {% for e in ub %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -87,7 +87,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="nationality" id="nationality" placeholder="Nationality" required>
+                <select class="form-control form-input" name="nationality" id="nationality" placeholder="Nationality" required>
                     <option value="">Nationality</option>
                     {% for e in un %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -95,7 +95,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="category_ph_defence_type" id="category_ph_defence_type" placeholder="Category_PH_Defence Type" required>
+                <select class="form-control form-input" name="category_ph_defence_type" id="category_ph_defence_type" placeholder="Category_PH_Defence Type" required>
                     <option value="">Category PH Defence Type</option>
                     {% for e in ucpdt %}
                         <option value="{{ e }}">{{ e }}</option>
@@ -103,7 +103,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <select class="form-control" name="college_name" id="college_name">
+                <select class="form-control form-input" name="college_name" id="college_name">
                     <option value="">College Name (optional)</option>
                     {% for e in ucn %}
                         <option value="{{ e }}">{{ e }}</option>

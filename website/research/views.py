@@ -178,14 +178,50 @@ def college_prediction(request):
 
 def placement_prediction(request):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    model_dir = os.path.join(base_dir, '..', 'models', 'college_prediction')
-    encoder_dir = os.path.join(base_dir, '..', 'encoders', 'college_prediction')
-    scaler_dir = os.path.join(base_dir, '..', 'scalers', 'college_prediction')
-    unique_dir = os.path.join(base_dir, '..', 'unique', 'college_prediction')
-    data_dir = os.path.join(base_dir, '..', 'data', 'college_prediction')
+    model_dir = os.path.join(base_dir, '..', 'models', 'placement_prediction')
+    encoder_dir = os.path.join(base_dir, '..', 'encoders', 'placement_prediction')
+    scaler_dir = os.path.join(base_dir, '..', 'scalers', 'placement_prediction')
+    unique_dir = os.path.join(base_dir, '..', 'unique', 'placement_prediction')
+    data_dir = os.path.join(base_dir, '..', 'data', 'placement_prediction')
     
+    unique_branches = pkl.load(open(f'{unique_dir}/Branch.sav','rb'))
+    unique_campus = pkl.load(open(f'{unique_dir}/Campus.sav','rb'))
+    unique_genders = pkl.load(open(f'{unique_dir}/Gender.sav','rb'))
     
     if request.method == 'POST':
+        branch = request.POST['branch']
+        campus = request.POST['campus']
+        gender = request.POST['gender']
+        be_aggregate_marks = request.POST['be_aggregate_marks']
+        semester1_marks = request.POST['semester1_marks']
+        backpapers1 = request.POST['backpapers1']
+        p_backpapers1 = request.POST['p_backpapers1']
+        semester2_marks = request.POST['semester2_marks']
+        backpapers2 = request.POST['backpapers2']
+        p_backpapers2 = request.POST['p_backpapers2']
+        semester3_marks = request.POST['semester3_marks']
+        backpapers3 = request.POST['backpapers3']
+        p_backpapers3 = request.POST['p_backpapers3']
+        semester4_marks= ['semester4_marks']
+        backpapers4 = request.POST['backpapers4']
+        p_backpapers4 = request.POST['p_backpapers4']
+        semester5_marks = request.POST['semester5_marks']
+        backpapers5 = request.POST['backpapers5']
+        p_backpapers5 = request.POST['p_backpapers5']
+        semester6_marks = request.POST['semester6_marks']
+        backpapers6 = request.POST['backpapers6']
+        p_backpapers6 = request.POST['p_backpapers6']
+        semester7_marks = request.POST['semester7_marks']
+        backpapers7 = request.POST['backpapers7']
+        p_backpapers7 = request.POST['p_backpapers7']
+        hsc_marks = request.POST['hsc_marks']
+        ssc_marks = request.POST['ssc_marks']
+        diploma_marks = request.POST['diploma_marks']
+        dead_back_log = request.POST['dead_back_log']
+        live_atkt = request.POST['live_atkt']
+        data = np.array([[
+            
+        ]])
         
         results = []
         # for model in models:

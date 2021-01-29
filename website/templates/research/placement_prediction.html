@@ -44,34 +44,56 @@
     <div class="container form-container">
         <form action="" method="post">
             <div class="form-group">
-                <select class="form-control" name="branch" id="branch" placeholder="Branch" required>
+                <select class="form-control form-input" name="branch" id="branch" placeholder="Branch" required>
                     <option value="">Branch</option>
                     {% for e in ub %}
                         <option value="{{ e }}">{{ e }}</option>
                     {% endfor %}
                 </select>
-                <select class="form-control" name="campus" id="campus" placeholder="Campus" required>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-input" name="campus" id="campus" placeholder="Campus" required>
                     <option value="">Campus</option>
                     {% for e in uc %}
                         <option value="{{ e }}">{{ e }}</option>
                     {% endfor %}
                 </select>
-                <select class="form-control" name="gender" id="gender" placeholder="Gender" required>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-input" name="gender" id="gender" placeholder="Gender" required>
                     <option value="">Gender</option>
                     {% for e in ug %}
                         <option value="{{ e }}">{{ e }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group"><input type="text" class="form-control" name="be_aggregate_marks" id="be_aggregate_marks" placeholder="BE Aggregate Marks"></div>
-            <div class="form-group"><input type="text" class="form-control" name="semester1_marks" id="semester1_marks"></div>
-            <div class="form-group"><input type="text" class="form-control" name="backpapers1" id="backpapers1"></div>
-            [
-                'branch', 'campus', 'gender', 'be_aggregate_marks', 'semester1_marks', 'backpapers1', 'p_backpapers1', 'semester2_marks', 
-                'BackPapers2', 'P_BackPapers2', 'Semester3_Marks', 'BackPapers3', 'P_BackPapers3', 'Semester4_Marks', 'BackPapers4', 
-                'P_BackPapers4', 'Semester5_Marks', 'BackPapers5', 'P_BackPapers5', 'Semester6_Marks', 'BackPapers6', 'P_BackPapers6', 
-                'Semester7_Marks', 'BackPapers7', 'P_BackPapers7', 'HSC_Marks', 'SSC_Marks', 'Diploma_Marks', 'dead_back_log', 'live_atkt'
-            ]
+            <div class="form-group"><input type="text" class="form-control form-input" name="be_aggregate_marks" id="be_aggregate_marks" placeholder="BE Aggregate Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester1_marks" id="semester1_marks" placeholder="Semester 1 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers1" id="backpapers1" placeholder="Backpapers 1"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers1" id="p_backpapers1" placeholder="P Backpapers 1"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester2_marks" id="semester2_marks" placeholder="Semester 2 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers2" id="backpapers2" placeholder="Back Papers 2"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers2" id="p_backpapers2" placeholder="P Back Papers 2"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester3_marks" id="semester3_marks" placeholder="Semester 3 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers3" id="backpapers3" placeholder="BackPapers 3"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers3" id="p_backpapers3" placeholder="P_BackPapers 3"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester4_marks" id="semester4_marks" placeholder="Semester 4 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers4" id="backpapers4" placeholder="Back Papers 4"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers4" id="p_backpapers4" placeholder="P Back Papers 4"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester5_marks" id="semester5_marks" placeholder="Semester 5 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers5" id="backpapers5" placeholder="Back Papers 5"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers5" id="p_backpapers5" placeholder="P Back Papers 5"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester6_marks" id="semester6_marks" placeholder="Semester 6 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers6" id="backpapers6" placeholder="Back Papers 6"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers6" id="p_backpapers6" placeholder="P Back Papers 6"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="semester7_marks" id="semester7_marks" placeholder="Semester 7 Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="backpapers7" id="backpapers7" placeholder="Back Papers 7"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="p_backpapers7" id="p_backpapers7" placeholder="P Back Papers 7"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="hsc_marks" id="hsc_marks" placeholder="HSC Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="ssc_marks" id="ssc_marks" placeholder="SSC Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="diploma_marks" id="diploma_marks" placeholder="Diploma Marks"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="dead_back_log" id="dead_back_log" placeholder="Dead Back Log"></div>
+            <div class="form-group"><input type="text" class="form-control form-input" name="live_atkt" id="live_atkt" placeholder="Live Atkt"></div>
             <div class="btn-group d-flex pt-2 ml-5 mr-5 pl-5 pr-5">
                 <button type="submit" class="btn btn-primary btn-rnd">Submit</button>
                 <button type="reset" class="btn btn-danger btn-rnd">Clear</button>
