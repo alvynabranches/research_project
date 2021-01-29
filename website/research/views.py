@@ -187,6 +187,10 @@ def placement_prediction(request):
     unique_branches = pkl.load(open(f'{unique_dir}/Branch.sav','rb'))
     unique_campus = pkl.load(open(f'{unique_dir}/Campus.sav','rb'))
     unique_genders = pkl.load(open(f'{unique_dir}/Gender.sav','rb'))
+    models = []
+    for file in os.listdir(model_dir):
+        if file.endswith('.sav'):
+            models.append(dict(model_name=file.replace('.sav',''), model=pkl.load(open(f'{model_dir}/{file}','rb'))))
     
     if request.method == 'POST':
         branch = request.POST['branch']
@@ -234,6 +238,9 @@ def placement_prediction(request):
         return render(request, 'research/placement_prediction_result.html')
     show_variables = dict(
         online=gethostbyname(gethostname())!='127.0.0.1',
-        offline=gethostbyname(gethostname())=='127.0.0.1'
+        offline=gethostbyname(gethostname())=='127.0.0.1',
+        ub=unique_branches,
+        uc=unique_campus,
+        ug=unique_genders,
     )
     return render(request, 'research/placement_prediction.html', context=show_variables)
