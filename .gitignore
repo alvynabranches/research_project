@@ -132,7 +132,14 @@ dmypy.json
 .vscode/
 
 # Pickle Files
-*.sav
+# *.sav
+
+# Pickle Folders
+data/
+encoders/
+models/
+scalers/
+unique/
 
 # Custom Files
 _.py
