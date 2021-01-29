@@ -113,9 +113,21 @@ e = perf_counter()
 print(info)
 print(f'Time Taken: {e-s:.2f} seconds')
 
+models_list = []
+models_list.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
+models_list.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
+models_list.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
+models_list.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
+models_list.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
+models_list.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
+models_list.append(dict(model_name='XGBoostClassifier', model=pkl.load(open(f'{model_dir}/XGBoostClassifier.sav','rb'))))
+
 # fig = plt.figure()
 # fig.suptitle('Machine Learning Algorithms performance comparison')
 # ax = fig.add_subplot(111)
 # plt.boxplot(results['accuracy'])
 # ax.set_xticklabels(results['model_name'])
 # plt.show()
+
+end = perf_counter()
+print(f'Total Time Taken: {end-start:.2f} seconds')
