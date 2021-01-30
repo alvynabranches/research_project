@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import pickle as pkl
 from time import perf_counter
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -104,6 +104,7 @@ cat = ['College Name', 'College Code', 'Gender', 'Candidate Type', 'Category', '
 all_fields = con + cat
 # X = np.append(df[cat].values, df[con].values, axis=1)
 print(df.columns.values.tolist())
+
 X = df.iloc[:,df.columns != 'BRANCH']
 y = df['BRANCH']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
@@ -112,6 +113,14 @@ pkl.dump(X_train, open(f'{data_dir}/X_train.sav', 'wb'))
 pkl.dump(X_test, open(f'{data_dir}/X_test.sav', 'wb'))
 pkl.dump(y_train, open(f'{data_dir}/y_train.sav', 'wb'))
 pkl.dump(y_test, open(f'{data_dir}/y_test.sav', 'wb'))
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+pkl.dump(scaler, open(f'{scaler_dir}/scaler.sav', 'wb'))
+pkl.dump(X_train, open(f'{data_dir}/X_train_scaled.sav', 'wb'))
+pkl.dump(X_test, open(f'{data_dir}/X_test_scaled.sav', 'wb'))
 
 models_list = []
 # models_list.append(dict(model_name='LogisticRegression', model=LogisticRegression(max_iter=1000))) # max_iter=1000
@@ -126,7 +135,7 @@ results = dict(model_name=[], accuracy=[])
 info = ''
 s = perf_counter()
 for model_dict in models_list:
-    kfold = KFold(n_splits=10, random_state=2019)
+    kfold = KFold(n_splits=10, random_state=2019, shuffle=True)
     cross_val_results = cross_val_score(model_dict['model'], X_train, y_train, cv=kfold, scoring='accuracy', n_jobs=4)
     results['model_name'].append(model_dict['model_name'])
     results['accuracy'].append(cross_val_results)
