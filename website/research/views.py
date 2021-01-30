@@ -245,7 +245,9 @@ def placement_prediction(request):
             backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, 
             dead_back_log, live_atkt, 
         ]])
+        
         print(data.shape)
+        
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
         data = scaler.transform(data)
         
