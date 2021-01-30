@@ -229,22 +229,27 @@ def placement_prediction(request):
         dead_back_log = request.POST['dead_back_log']
         live_atkt = request.POST['live_atkt']
         
+        print(request.POST)
+        
         branch_encoder = pkl.load(open(f'{encoder_dir}/Branch.sav','rb'))
         campus_encoder = pkl.load(open(f'{encoder_dir}/Campus.sav','rb'))
         gender_encoder = pkl.load(open(f'{encoder_dir}/Gender.sav','rb'))
         
         data = np.array([[
             branch_encoder.transform([branch]), campus_encoder.transform([campus]), gender_encoder.transform([gender]), 
-            be_aggregate_marks, semester1_marks, backpapers1, p_backpapers1, semester2_marks, backpapers2, p_backpapers2, 
-            semester3_marks, backpapers3, p_backpapers3, semester4_marks, backpapers4, p_backpapers4, semester5_marks, backpapers5, 
-            p_backpapers5, semester6_marks, backpapers6, p_backpapers6, semester7_marks, backpapers7, p_backpapers7, hsc_marks, 
-            ssc_marks, diploma_marks, dead_back_log, live_atkt,
+            be_aggregate_marks, semester1_marks, backpapers1, p_backpapers1, 
+            semester2_marks, backpapers2, p_backpapers2, semester3_marks, 
+            backpapers3, p_backpapers3, semester4_marks, backpapers4, 
+            p_backpapers4, semester5_marks, backpapers5, p_backpapers5, 
+            semester6_marks, backpapers6, p_backpapers6, semester7_marks, 
+            backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, 
+            dead_back_log, live_atkt, 
         ]])
-        
+        print(data.shape)
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
-        # data = scaler.transform(data)
+        data = scaler.transform(data)
         
-        results = model.predict(data).tolist()[0]
+        # results = model.predict(data).tolist()[0]
         # print(results)
         
         show_variables = dict(

@@ -41,10 +41,20 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <ul>
-        <li><a href="/branch_prediction" class="nav nav-link">Branch Prediction</a></li>
-        <li><a href="/college_prediction" class="nav nav-link">College Prediction</a></li>
-        <li><a href="/placement_prediction" class="nav nav-link">Placement Prediction</a></li>
-    </ul>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <a href="/" class="navbar-brand">Navbar</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" style="color:#ffffff;font-weight:bold;" href="/branch_prediction">Branch Prediction</a></li>
+                    <li class="nav-item"><a class="nav-link" style="color:#ffffff;font-weight:bold;" href="/college_prediction">College Prediction</a></li>
+                    <li class="nav-item"><a class="nav-link" style="color:#ffffff;font-weight:bold;" href="/placement_prediction">Placement Prediction</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    
 </body>
 </html>
