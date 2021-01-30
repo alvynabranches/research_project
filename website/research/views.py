@@ -69,14 +69,19 @@ def branch_prediction(request):
         home_university_encoder = pkl.load(open(f'{encoder_dir}/HomeUniversity.sav','rb'))
         college_code_encoder = pkl.load(open(f'{encoder_dir}/CollegeCode.sav','rb'))
         
-        data = np.array([[college_name_encoder.transform([college_name]), college_code_encoder.transform([float(college_code)]), 
+        data = np.array([[
+            college_name_encoder.transform([college_name]), college_code_encoder.transform([float(college_code)]), 
             merit_no, merit_marks, gender_encoder.transform([gender]), candidate_type_encoder.transform([candidate_type]), 
             category_encoder.transform([category]), home_university_encoder.transform([home_university]), 
             ph_type_encoder.transform([ph_type]), defence_type_encoder.transform([defence_type]), hsc_eligibility, 
             cap_round_encoder.transform([cap_round]), nationality_encoder.transform([nationality])
         ]])
+        
+        scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
+        data = scaler.transform(data)
+        
         init_results = np.argsort(model.predict_proba(data)[0]).tolist()[-3:]
-        results = [college_name_encoder.inverse_transform([init_results[i]]).tolist()[0] for i in range(2, -1, -1)]
+        results = [branch_encoder.inverse_transform([init_results[i]]).tolist()[0] for i in range(2, -1, -1)]
         del init_results
         
         show_variables = dict(
@@ -85,6 +90,7 @@ def branch_prediction(request):
             results=results,
         )
         return render(request, 'research/branch_prediction_result.html', context=show_variables)
+    
     show_variables = dict(
         online=gethostbyname(gethostname())!='127.0.0.1',offline=gethostbyname(gethostname())=='127.0.0.1',
         ucn=unique_college_names,
@@ -189,7 +195,7 @@ def placement_prediction(request):
     unique_campus = pkl.load(open(f'{unique_dir}/Campus.sav','rb'))
     unique_genders = pkl.load(open(f'{unique_dir}/Gender.sav','rb'))
     
-    model = pkl.load(open(f'{model_dir}/RandomForestClassifier','rb'))
+    model = pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))
     
     if request.method == 'POST':
         branch = request.POST['branch']
@@ -228,23 +234,23 @@ def placement_prediction(request):
         gender_encoder = pkl.load(open(f'{encoder_dir}/Gender.sav','rb'))
         
         data = np.array([[
-            branch_encoder.transform(branch), campus_encoder.transform(campus), gender_encoder.transform(gender), be_aggregate_marks, 
-            semester1_marks, backpapers1, p_backpapers1, semester2_marks, backpapers2, p_backpapers2, semester3_marks, backpapers3, 
-            p_backpapers3, semester4_marks, backpapers4, p_backpapers4, semester5_marks, backpapers5, p_backpapers5, semester6_marks, 
-            backpapers6, p_backpapers6, semester7_marks, backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, dead_back_log, 
-            live_atkt
+            branch_encoder.transform([branch]), campus_encoder.transform([campus]), gender_encoder.transform([gender]), 
+            be_aggregate_marks, semester1_marks, backpapers1, p_backpapers1, semester2_marks, backpapers2, p_backpapers2, 
+            semester3_marks, backpapers3, p_backpapers3, semester4_marks, backpapers4, p_backpapers4, semester5_marks, backpapers5, 
+            p_backpapers5, semester6_marks, backpapers6, p_backpapers6, semester7_marks, backpapers7, p_backpapers7, hsc_marks, 
+            ssc_marks, diploma_marks, dead_back_log, live_atkt,
         ]])
         
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
         data = scaler.transform(data)
         
-        results = model.predict(data).tolist()[0]
-        print(results)
+        # results = model.predict(data).tolist()[0]
+        # print(results)
         
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
-            results=results,
+            # results=results,
         )
         return render(request, 'research/placement_prediction_result.html')
     show_variables = dict(
