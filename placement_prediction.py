@@ -69,15 +69,18 @@ pkl.dump(gender_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
 X = df.iloc[:,df.columns!='Job Offer Count']
 y = df['Job Offer Count']
 pkl.dump(df['Job Offer Count'].unique().tolist(), open(f'{unique_dir}/JobOfferCount.sav','wb'))
-print(X.columns.values.tolist())
-print(df['Job Offer Count'].unique().tolist())
-sys.exit()
+# print(X.columns.values.tolist())
+# print(df['Job Offer Count'].unique().tolist())
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
 
 pkl.dump(X_train, open(f'{data_dir}/X_train.sav', 'wb'))
 pkl.dump(X_test, open(f'{data_dir}/X_test.sav', 'wb'))
 pkl.dump(y_train, open(f'{data_dir}/y_train.sav', 'wb'))
 pkl.dump(y_test, open(f'{data_dir}/y_test.sav', 'wb'))
+
+# print(X_test.reset_index().drop(['index'], axis=1).head(2))
+for col in X_test.reset_index().drop(['index'], axis=1).columns.values.tolist():
+    print(f'{col}: {X_test[col][0]}')
 
 scaler = StandardScaler()
 scaler = StandardScaler()
@@ -118,8 +121,12 @@ for model_dict in models_list:
     model_dict['model'].fit(X_test, y_test)
     pkl.dump(model_dict['model'], open(f'{model_dir}/{model_dict["model_name"]}.sav', 'wb'))
 e = perf_counter()
-print(info)
+# print(info)
 print(f'Time Taken: {e-s:.2f} seconds')
+
+print(models_list[0]['model'].predict([X_test[0]])[0])
+print(scaler.inverse_transform([X_test[0]]))
+print(X_test[0].shape)
 
 models_list = []
 # models_list.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
