@@ -242,9 +242,9 @@ def placement_prediction(request):
         ]])
         
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
-        data = scaler.transform(data)
+        # data = scaler.transform(data)
         
-        # results = model.predict(data).tolist()[0]
+        results = model.predict(data).tolist()[0]
         # print(results)
         
         show_variables = dict(
@@ -252,7 +252,7 @@ def placement_prediction(request):
             offline=gethostbyname(gethostname())=='127.0.0.1',
             # results=results,
         )
-        return render(request, 'research/placement_prediction_result.html')
+        return render(request, 'research/placement_prediction_result.html', context=show_variables)
     show_variables = dict(
         online=gethostbyname(gethostname())!='127.0.0.1',
         offline=gethostbyname(gethostname())=='127.0.0.1',
