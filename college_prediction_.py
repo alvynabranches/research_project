@@ -134,6 +134,7 @@ pkl.dump(y_test, open(f'{data_dir}/y_test.sav', 'wb'))
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
+
 pkl.dump(scaler, open(f'{scaler_dir}/scaler.sav', 'wb'))
 pkl.dump(X_train, open(f'{data_dir}/X_train_scaled.sav', 'wb'))
 pkl.dump(X_test, open(f'{data_dir}/X_test_scaled.sav', 'wb'))
@@ -172,6 +173,7 @@ for model_dict in models_list:
     results['accuracy'].append(cross_val_results)
     info += f"{model_dict['model_name']}: {cross_val_results.mean()} ({cross_val_results.std()})\n"
     model_dict['model'].fit(X_train, y_train)
+    model_dict['model'].fit(X_test, y_test)
     pkl.dump(model_dict['model'], open(f'{model_dir}/{model_dict["model_name"]}.sav', 'wb'))
 e = perf_counter()
 print(info)
