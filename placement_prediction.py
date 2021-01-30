@@ -1,4 +1,4 @@
-import os
+import os, sys
 import numpy as np
 import pandas as pd
 import pickle as pkl
@@ -64,12 +64,14 @@ df['BRANCH'] = branch_encoder.fit_transform(df['BRANCH'])
 pkl.dump(branch_encoder, open(f'{encoder_dir}/Branch.sav','wb'))
 pkl.dump(df['Gender'].unique().tolist(), open(f'{unique_dir}/Gender.sav','wb'))
 df['Gender'] = gender_encoder.fit_transform(df['Gender'])
-pkl.dump(campus_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
+pkl.dump(gender_encoder, open(f'{encoder_dir}/Gender.sav','wb'))
 
 X = df.iloc[:,df.columns!='Job Offer Count']
 y = df['Job Offer Count']
 pkl.dump(df['Job Offer Count'].unique().tolist(), open(f'{unique_dir}/JobOfferCount.sav','wb'))
+print(X.columns.values.tolist())
 print(df['Job Offer Count'].unique().tolist())
+sys.exit()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=2019)
 
 pkl.dump(X_train, open(f'{data_dir}/X_train.sav', 'wb'))
