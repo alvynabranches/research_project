@@ -211,7 +211,7 @@ def placement_prediction(request):
         semester3_marks = request.POST['semester3_marks']
         backpapers3 = request.POST['backpapers3']
         p_backpapers3 = request.POST['p_backpapers3']
-        semester4_marks= ['semester4_marks']
+        semester4_marks= request.POST['semester4_marks']
         backpapers4 = request.POST['backpapers4']
         p_backpapers4 = request.POST['p_backpapers4']
         semester5_marks = request.POST['semester5_marks']
@@ -229,8 +229,6 @@ def placement_prediction(request):
         dead_back_log = request.POST['dead_back_log']
         live_atkt = request.POST['live_atkt']
         
-        print(request.POST)
-        
         branch_encoder = pkl.load(open(f'{encoder_dir}/Branch.sav','rb'))
         campus_encoder = pkl.load(open(f'{encoder_dir}/Campus.sav','rb'))
         gender_encoder = pkl.load(open(f'{encoder_dir}/Gender.sav','rb'))
@@ -245,19 +243,23 @@ def placement_prediction(request):
             backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, 
             dead_back_log, live_atkt, 
         ]])
-        
-        print(data.shape)
-        
+        # print(data)
         scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
         data = scaler.transform(data)
         
-        # results = model.predict(data).tolist()[0]
-        # print(results)
+        init_results = model.predict(data).tolist()[0]
+        if init_results == 0:
+            results = 'Wont Get Placement'
+        elif init_results == 1:
+            results = 'Will Get Placement'
+        else:
+            results = 'Not Sure of Placement'
+        print(results)
         
         show_variables = dict(
             online=gethostbyname(gethostname())!='127.0.0.1',
             offline=gethostbyname(gethostname())=='127.0.0.1',
-            # results=results,
+            results=results,
         )
         return render(request, 'research/placement_prediction_result.html', context=show_variables)
     show_variables = dict(
