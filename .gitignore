@@ -137,7 +137,7 @@ dmypy.json
 # Pickle Folders
 data/
 # encoders/
-models/
+# models/
 # scalers/
 # unique/
 
