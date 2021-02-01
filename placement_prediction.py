@@ -128,21 +128,30 @@ print(models_list[0]['model'].predict([X_test[0]])[0])
 print(scaler.inverse_transform([X_test[0]]))
 print(X_test[0].shape)
 
-models_list = []
-# models_list.append(dict(model_name='LogisticRegression', model=pkl.load(open(f'{model_dir}/LogisticRegression.sav','rb'))))
-# models_list.append(dict(model_name='SupportVectorClassifier', model=pkl.load(open(f'{model_dir}/SupportVectorClassifier.sav','rb'))))
-# models_list.append(dict(model_name='DecisionTreeClassifier', model=pkl.load(open(f'{model_dir}/DecisionTreeClassifier.sav','rb'))))
-models_list.append(dict(model_name='RandomForestClassifier', model=pkl.load(open(f'{model_dir}/RandomForestClassifier.sav','rb'))))
-# models_list.append(dict(model_name='GaussianNB', model=pkl.load(open(f'{model_dir}/GaussianNB.sav','rb'))))
-# models_list.append(dict(model_name='KNeighborsClassifier', model=pkl.load(open(f'{model_dir}/KNeighborsClassifier.sav','rb'))))
-# models_list.append(dict(model_name='XGBoostClassifier', model=pkl.load(open(f'{model_dir}/XGBoostClassifier.sav','rb'))))
+def getprediction(branch, campus, gender, be_aggregate_marks, semester1_marks, backpapers1, p_backpapers1, semester2_marks, 
+        backpapers2, p_backpapers2, semester3_marks, backpapers3, p_backpapers3, semester4_marks, backpapers4, p_backpapers4, 
+        semester5_marks, backpapers5, p_backpapers5, semester6_marks, backpapers6, p_backpapers6, semester7_marks, backpapers7, 
+        p_backpapers7, hsc_marks, ssc_marks, diploma_marks, dead_back_log, live_atkt, encoder_dir, scaler_dir):
+    branch_encoder = pkl.load(open(f'{encoder_dir}/Branch.sav','rb'))
+    campus_encoder = pkl.load(open(f'{encoder_dir}/Campus.sav','rb'))
+    gender_encoder = pkl.load(open(f'{encoder_dir}/Gender.sav','rb'))
+    
+    data = np.array([[
+        branch_encoder.transform([branch]), campus_encoder.transform([campus]), gender_encoder.transform([gender]), 
+        be_aggregate_marks, semester1_marks, backpapers1, p_backpapers1, 
+        semester2_marks, backpapers2, p_backpapers2, semester3_marks, 
+        backpapers3, p_backpapers3, semester4_marks, backpapers4, 
+        p_backpapers4, semester5_marks, backpapers5, p_backpapers5, 
+        semester6_marks, backpapers6, p_backpapers6, semester7_marks, 
+        backpapers7, p_backpapers7, hsc_marks, ssc_marks, diploma_marks, 
+        dead_back_log, live_atkt, 
+    ]])
+    scaler = pkl.load(open(f'{scaler_dir}/scaler.sav', 'rb'))
+    return scaler.transform(data)
 
-# fig = plt.figure()
-# fig.suptitle('Machine Learning Algorithms performance comparison')
-# ax = fig.add_subplot(111)
-# plt.boxplot(results['accuracy'])
-# ax.set_xticklabels(results['model_name'])
-# plt.show()
+data = getprediction('Computer Science & Engineering','MIT,Pune','Male',6.75,7,1,0,6.94,1,0,6.94,0,0,6.96,0,0,5.89,1,0,6,0,0,7.92,0,0,73.85,82,82.19,0,0,encoder_dir,scaler_dir)
+
+print(models_list[0]['model'].predict(data))
 
 end = perf_counter()
 print(f'Total Time Taken: {end-start:.2f} seconds')
