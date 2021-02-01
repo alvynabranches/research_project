@@ -138,7 +138,7 @@ dmypy.json
 data/
 # encoders/
 models/
-scalers/
+# scalers/
 unique/
 
 # Custom Files
