@@ -139,7 +139,7 @@ data/
 # encoders/
 models/
 # scalers/
-unique/
+# unique/
 
 # Custom Files
 _.py
